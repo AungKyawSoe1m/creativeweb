@@ -155,16 +155,16 @@ $(document).ready(function () {
       titleMessage = "Score Low";
       resultClass = "score-low";
       message =
-        "You scored is lower than 40% of the total marks ပိုမိုလေ့လာဖို့လိုအပ်ပါသည်!";
+        "You scored is lower than 40% of the total marks! More study is needed.";
     } else if (score >= 40 && score < 80) {
       titleMessage = "Score Medium";
       resultClass = "score-medium";
       message =
-        "You scored is a medium section of the total mark!။ နည်းနည်းထပ်ကြိုးစားရင် ပိုကောင်းမယ်။";
+        "You scored is a medium section of the total mark! You should try a little harder.";
     } else {
       titleMessage = "Score High";
       resultClass = "score-high";
-      message = "You scored is higher than 80% of the total marks Great Job!";
+      message = "You scored is higher than 80% of the total marks! Great Job.";
     }
 
     $("#resultMessage").text(message);
