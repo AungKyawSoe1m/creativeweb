@@ -216,20 +216,20 @@ $(document).ready(function () {
 
   //Counter Checking
   // Check if localStorage is supported
-  if (typeof Storage !== "undefined") {
-    // Get current count or initialize
-    let visitCount = localStorage.getItem("visitCount") || 0;
+  // if (typeof Storage !== "undefined") {
+  //   // Get current count or initialize
+  //   let visitCount = localStorage.getItem("visitCount") || 0;
 
-    // Increment count
-    visitCount++;
+  //   // Increment count
+  //   visitCount++;
 
-    // Store updated count
-    localStorage.setItem("visitCount", visitCount);
+  //   // Store updated count
+  //   localStorage.setItem("visitCount", visitCount);
 
-    // Display count
-    document.getElementById("visitor-counter").textContent = visitCount;
-  } else {
-    document.getElementById("visitor-counter").textContent =
-      "Counter not supported";
-  }
+  //   // Display count
+  //   document.getElementById("visitor-counter").textContent = visitCount;
+  // } else {
+  //   document.getElementById("visitor-counter").textContent =
+  //     "Counter not supported";
+  // }
 });
