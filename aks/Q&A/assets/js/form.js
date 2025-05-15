@@ -108,7 +108,6 @@ $(document).ready(function () {
       });
     });
 
-
     showResultPage(total);
 
     displayResults(selectedOptions);
@@ -145,26 +144,26 @@ $(document).ready(function () {
     });
 
     $("#resultContent").html(resultHtml);
-
   }
 
   function displayScoreResult(score) {
     var message = "";
     var resultClass = "";
     var titleMessage = "";
-    
 
-    if(score < 40) {
+    if (score < 40) {
       titleMessage = "Score Low";
       resultClass = "score-low";
-      message = "You scored is lower than 40% of the total marks ပိုမိုလေ့လာဖို့လိုအပ်ပါသည်!";
+      message =
+        "You scored is lower than 40% of the total marks ပိုမိုလေ့လာဖို့လိုအပ်ပါသည်!";
     } else if (score >= 40 && score < 80) {
       titleMessage = "Score Medium";
       resultClass = "score-medium";
-      message = 'You scored is a medium section of the total mark!။ နည်းနည်းထပ်ကြိုးစားရင် ပိုကောင်းမယ်။';
+      message =
+        "You scored is a medium section of the total mark!။ နည်းနည်းထပ်ကြိုးစားရင် ပိုကောင်းမယ်။";
     } else {
       titleMessage = "Score High";
-      resultClass = 'score-high';
+      resultClass = "score-high";
       message = "You scored is higher than 80% of the total marks Great Job!";
     }
 
@@ -172,14 +171,11 @@ $(document).ready(function () {
     $("#titleMessage").text(titleMessage);
   }
 
-
-
   // Back Button Click Event
   $("#backBtn").click(function () {
     showFormPage();
     $("#multiform").trigger("reset");
     location.reload();
-    
   });
 
   // Function to show result page with transition
@@ -193,7 +189,7 @@ $(document).ready(function () {
     // After fade-out completes, hide form and show result
     setTimeout(function () {
       $("#mainForm").hide();
-      
+
       $("#resultPage")
         .css("display", "block")
         .hide()
@@ -218,4 +214,22 @@ $(document).ready(function () {
     }, 500);
   }
 
+  //Counter Checking
+  // Check if localStorage is supported
+  if (typeof Storage !== "undefined") {
+    // Get current count or initialize
+    let visitCount = localStorage.getItem("visitCount") || 0;
+
+    // Increment count
+    visitCount++;
+
+    // Store updated count
+    localStorage.setItem("visitCount", visitCount);
+
+    // Display count
+    document.getElementById("visitor-counter").textContent = visitCount;
+  } else {
+    document.getElementById("visitor-counter").textContent =
+      "Counter not supported";
+  }
 });
