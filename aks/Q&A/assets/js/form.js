@@ -41,27 +41,92 @@ $(document).ready(function () {
     }, 400);
   });
 
-  var form_count = 1,
-    previous_form,
-    next_form,
-    total_forms;
-  total_forms = $("fieldset").length;
+  //Question Random
+
+  // မေးခွန်းများ
+  const questions = [
+    "သူက ကိုယ့်အပေါ်စိတ်ဝင်စားမှု ဘယ်လောက်ထိရှိလဲ?",
+    "သူ့ရဲ့ typeက ကိုယ်နဲ့ ကိုက်ညီမှုရှိလား?",
+    "သူနဲ့ ရေရှည်ဆက်သွားနိုင်မလား?",
+    "သူက ကိုယ့်ကို ချစ်တယ်လို့ခံစားမိရဲ့လား?",
+    "သင့်အပေါ်ကို သူက သည်းခံပေးနိုင်မှုအတိုင်းအတာက ဘယ်လောက်ထိရှိလဲ?",
+    "သူ့ရဲ့ အကျင့်စာရိတ္တ ကိုကောဘယ်လိုမြင်လဲ?",
+    "သင့်ပေါ်ကို သူက ဘယ်လောက်ထိ ဂရုစိုက်မှုပေးနိုင်လဲ?",
+    "သင့်ရဲ (ကောင်းကွက်၊ဆိုးကွက်)တွေကိုကော သူက ဘယ်လောက်ထိ သည်းခံပေးနိုင်လဲ?",
+    "သူ့ရဲ ပြောပုံဆိုပုံကို ဘယ်လိုမြင်လဲ?",
+    "သင့်ရဲ့ ဘဝအတွက် သူက ဘယ်လောက်ထိ အရေးပါသလဲ?",
+    "သူ့ကို ဘယ်လောက်ထိ ယုံကြည်ိလို့ ရလဲ?"
+  ];
+
+  // Initialize properly
+  let form_count = 1;
+  let previous_form = $("fieldset").first();
+  let next_form = null;
+  let total_forms = $("fieldset").length;
+  let usedIndices = [];
+  let currentIndex;
+
+  // Show first question
+  showRandomQuestion(previous_form);
+
   $(".next-form").click(function () {
-    previous_form = $(this).parent();
-    console.log(previous_form);
-    next_form = $(this).parent().next();
-    next_form.show();
+    previous_form = $(this).closest("fieldset");
+
+    if (!previous_form.length) {
+      console.error("Current form not found");
+      return;
+    }
+
+    next_form = previous_form.next("fieldset");
+
+    if (!next_form.length) {
+      console.error("No next form available");
+      return;
+    }
+
+    showRandomQuestion(next_form);
     previous_form.hide();
+    next_form.show();
     setProgressBarValue(++form_count);
   });
+
   $(".previous-form").click(function () {
-    previous_form = $(this).parent();
-    next_form = $(this).parent().prev();
-    next_form.show();
+    previous_form = $(this).closest("fieldset");
+
+    if (!previous_form.length) {
+      console.error("Current form not found");
+      return;
+    }
+
+    next_form = previous_form.prev("fieldset");
+
+    if (!next_form.length) {
+      console.error("No previous form available");
+      return;
+    }
+
     previous_form.hide();
+    next_form.show();
     setProgressBarValue(--form_count);
   });
-  setProgressBarValue(form_count);
+
+  function showRandomQuestion(targetForm) {
+    // if (usedIndices.length === questions.length) {
+    //   usedIndices = [];
+    //   alert("မေးခွန်းအားလုံးကိုပြပြီးပါပြီ! နောက်တစ်ခါထပ်စမည်။");
+    // }
+
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * questions.length);
+    } while (usedIndices.includes(randomIndex));
+
+    usedIndices.push(randomIndex);
+    currentIndex = randomIndex;
+
+    targetForm.find(".question-text").text(questions[currentIndex]);
+  }
+
   function setProgressBarValue(value) {
     var percent = parseFloat(100 / total_forms) * value;
     percent = percent.toFixed();
@@ -69,6 +134,35 @@ $(document).ready(function () {
       .css("width", percent + "%")
       .html(percent + "%");
   }
+
+  // var form_count = 1,
+  //   previous_form,
+  //   next_form,
+  //   total_forms;
+  // total_forms = $("fieldset").length;
+  // $(".next-form").click(function () {
+  //   previous_form = $(this).parent();
+  //   console.log(previous_form);
+  //   next_form = $(this).parent().next();
+  //   next_form.show();
+  //   previous_form.hide();
+  //   setProgressBarValue(++form_count);
+  // });
+  // $(".previous-form").click(function () {
+  //   previous_form = $(this).parent();
+  //   next_form = $(this).parent().prev();
+  //   next_form.show();
+  //   previous_form.hide();
+  //   setProgressBarValue(--form_count);
+  // });
+  // setProgressBarValue(form_count);
+  // function setProgressBarValue(value) {
+  //   var percent = parseFloat(100 / total_forms) * value;
+  //   percent = percent.toFixed();
+  //   $(".progress-bar")
+  //     .css("width", percent + "%")
+  //     .html(percent + "%");
+  // }
 
   const colors = [
     "#1125d41a",
@@ -214,7 +308,6 @@ $(document).ready(function () {
     }, 500);
   }
 
-  //Counter Checking
   // Check if localStorage is supported
   // if (typeof Storage !== "undefined") {
   //   // Get current count or initialize
@@ -232,4 +325,39 @@ $(document).ready(function () {
   //   document.getElementById("visitor-counter").textContent =
   //     "Counter not supported";
   // }
+
+  // Questions JSON file ကိုဖတ်ပါ
+  // $.getJSON("questions.json", function (data) {
+  //   var questions = data.questions;
+  //   console.log(questions);
+
+  //   // Random question တစ်ခုကိုရွေးပါ
+  //   function getRandomQuestion() {
+  //     var randomIndex = Math.floor(Math.random() * questions.length);
+  //     return questions[randomIndex];
+  //   }
+
+  //   // Question ကိုပြသပါ
+  //   function displayQuestion(question) {
+  //     // var questionHtml = '<div class="question">';
+  //     // questionHtml += "<h3>" + question + "</h3>";
+  //     // questionHtml += "</div>";
+
+  //     var questionHtml = "";
+  //     questionHtml += "<h1>" + question + "</h1>";
+
+  //     $("#question-container").html(questionHtml);
+  //   }
+
+  //   // ပထမဆုံး question ကိုပြပါ
+  //   displayQuestion(getRandomQuestion());
+
+  //   // Next button အတွက် event listener
+  //   $(".next-form").click(function () {
+  //     displayQuestion(getRandomQuestion());
+  //   });
+  // }).fail(function () {
+  //   console.error("Error loading questions file");
+  //   $("#question-container").html("<p>Questions could not be loaded.</p>");
+  // });
 });
